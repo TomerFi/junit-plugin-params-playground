@@ -1,0 +1,27 @@
+---
+name: CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    name: Run Tests
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2.4.0
+
+
+      - name: Setup Java 11
+        uses: actions/setup-java@v2.4.0
+        with:
+          distribution: adopt
+          java-version: 11
+          cache: maven
+
+      - name: Test project with the plugin configuration (not working)
+        run: mvn test -B -ff -f params_in_plugin
+
+      - name: Test project with the properties file (working)
+        run: mvn test -B -ff -f params_in_properties
